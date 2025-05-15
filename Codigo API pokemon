@@ -1,0 +1,51 @@
+import requests
+
+def get_pokemon_info(nombre):
+    nombre = nombre.lower().strip()
+    url = f"https://pokeapi.co/api/v2/pokemon/{nombre}"
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        nombre = data['name'].capitalize()
+        id_pokemon = data['id']
+        tipo = ', '.join([t['type']['name'].capitalize() for t in data['types']])
+        altura = data['height'] / 10  # decímetros a metros
+        peso = data['weight'] / 10    # hectogramos a kilogramos
+        sprite = data['sprites']['front_default']
+
+        return {
+            "nombre": nombre,
+            "id": id_pokemon,
+            "tipo": tipo,
+            "altura": altura,
+            "peso": peso,
+            "imagen": sprite
+        }
+    elif response.status_code == 404:
+        return None
+    else:
+        raise Exception(f"Error {response.status_code} al conectar con la API.")
+
+if __name__ == "__main__":
+    print("🔎 Bienvenido al buscador de Pokémon (escribe 'salir' para terminar)\n")
+
+    while True:
+        nombre_pokemon = input("👉 Ingresa el nombre del Pokémon: ")
+
+        if nombre_pokemon.lower().strip() == "salir":
+            print("👋 ¡Hasta la próxima!")
+            break
+
+        info = get_pokemon_info(nombre_pokemon)
+
+        if info:
+            print(f"\n📋 Información de {info['nombre']}")
+            print(f"🆔 ID: {info['id']}")
+            print(f"🧬 Tipo: {info['tipo']}")
+            print(f"📏 Altura: {info['altura']} m")
+            print(f"⚖️ Peso: {info['peso']} kg")
+            print(f"🖼️ Imagen: {info['imagen']}\n")
+        else:
+            print("❌ Pokémon no encontrado. Verifica el nombre.\n")
