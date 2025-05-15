@@ -1,7 +1,7 @@
 # API-POKEMON
 # 🔍 Buscador de Pokémon con Python
 
-Este proyecto es una aplicación de consola desarrollada en Python que permite buscar información de cualquier Pokémon utilizando la [PokeAPI](https://pokeapi.co/).
+Es una aplicación de consola desarrollada en Python que permite buscar información de cualquier Pokémon utilizando la [PokeAPI](https://pokeapi.co/).
 
 ##  Características
 
